@@ -9,8 +9,6 @@ pub struct RSAPublicKey {
 
 impl RSAPublicKey {
     pub fn verify(&self, signature: &RSASignature, message: &[u8]) -> bool {
-        use ring::signature;
-
         let params = match signature._type.as_ref() {
             "ssh-rsa" => {
                 &ring::signature::RSA_PKCS1_2048_8192_SHA1_FOR_LEGACY_USE_ONLY

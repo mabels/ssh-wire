@@ -5,7 +5,7 @@ extern crate serde_derive;
 extern crate byteorder;
 extern crate ring;
 extern crate base64;
-extern crate libc;
+//extern crate libc;
 
 pub mod der;
 pub mod serde_de;
