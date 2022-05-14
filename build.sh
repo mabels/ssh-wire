@@ -1,19 +1,32 @@
 #!/bin/sh
 
-set -euo pipefail
+#set -euo pipefail
 
 # Build the rust project.
 cargo test
 
 #RUSTFLAGS="-C llvm-args=\"-fembed-bitcode\"" cargo lipo --release --verbose
 #BITCODE_GENERATION_MODE=bitcode cargo lipo --release --verbose
-cargo lipo --release --verbose
+#cargo lipo --release --verbose
 
 if [ ${ANDROID_NDK:-"-"} = "-" ]; then
 	echo "ANDROID_NDK unset, skipping android compilation";
 else
-	CXX=$ANDROID_NDK/arm/bin/arm-linux-androideabi-g++ CC=$ANDROID_NDK/arm/bin/arm-linux-androideabi-gcc AR=$ANDROID_NDK/arm/bin/arm-linux-androideabi-ar cargo build --target armv7-linux-androideabi --release
-	CXX=$ANDROID_NDK/x86/bin/i686-linux-android-g++ CC=$ANDROID_NDK/x86/bin/i686-linux-android-gcc AR=$ANDROID_NDK/x86/bin/i686-linux-android-ar cargo build --target i686-linux-android --release
 
-	CXX=$ANDROID_NDK/arm64/bin/aarch64-linux-android-g++ CC=$ANDROID_NDK/arm64/bin/aarch64-linux-android-gcc AR=$ANDROID_NDK/arm64/bin/aarch64-linux-android-ar cargo build --target aarch64-linux-android --release
+	#/Users/menabe/Library/Android/sdk/ndk/24.0.8215888//
+	export ANDROID_NDK_BIN=$ANDROID_NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin
+	CXX=$ANDROID_NDK_BIN/armv7a-linux-androideabi23-clang++ CC=$ANDROID_NDK_BIN/armv7a-linux-androideabi23-clang AR=$ANDROID_NDK_BIN/llvm-ar cargo build  --target armv7-linux-androideabi  --release
+
+	CXX=$ANDROID_NDK_BIN/i686-linux-android23-clang++ CC=$ANDROID_NDK_BIN/i686-linux-android23-clang AR=$ANDROID_NDK_BIN/llvm-ar cargo build --target i686-linux-android --release
+	CXX=$ANDROID_NDK_BIN/x86_64-linux-android23-clang++ CC=$ANDROID_NDK_BIN/x86_64-linux-android23-clang AR=$ANDROID_NDK_BIN/llvm-ar cargo build --target x86_64-linux-android --release
+
+
+	CXX=$ANDROID_NDK_BIN/aarch64-linux-android23-clang++ CC=$ANDROID_NDK_BIN/aarch64-linux-android23-clang AR=$ANDROID_NDK_BIN/llvm-ar cargo build --target aarch64-linux-android --release
+
+#	cargo build --target armv7-linux-androideabi --release
+#	cargo build --target i686-linux-android --release
+#	cargo build --target x86_64-linux-android --release
+#	cargo build --target aarch64-linux-android --release
+
 fi
+

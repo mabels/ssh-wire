@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "$ANDROID_NDK_BIN/i686-linux-android23-clang" $(echo $@ | sed 's|-lgcc||')

@@ -1,0 +1,26 @@
+[target.x86_64-linux-android]
+#linker = "ld.lld"
+linker = "./myld.x86_64"
+ar = "llvm-ar"
+
+[target.armv7-linux-androideabi]
+#llvm-config = "/Users/menabe/Library/Android/sdk/ndk/24.0.8215888//toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-config"
+#linker = "/Users/menabe/Library/Android/sdk/ndk/24.0.8215888//toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi23-clang"
+linker = "./myld.armv7"
+#rustflags = []
+ar = "llvm-ar"
+rustc-link-lib = {"foo" = "foo" }
+
+[target.aarch64-linux-android]
+linker = "./myld.aarch64"
+#linker = "ld.lld"
+ar = "llvm-ar"
+
+[target.i686-linux-android]
+#linker = "ld.lld"
+linker = "./myld.i686"
+ar = "llvm-ar"
+
+# Only enable when native libraries are changed since this causes spurious rebuilds
+#[build]
+#rustflags = ["--print=native-static-libs"]
